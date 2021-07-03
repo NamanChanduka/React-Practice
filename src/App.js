@@ -11,3 +11,12 @@ function App() {
 }
 
 export default App;
+
+//MOUNTING STAGE
+
+//UPDATE STAGE     {DEPRECATED:- componentWillRecieveProps() && componentWillUpdate()}
+//getdDerivedStateFromProps()
+//shouldComponentUpdate()
+//render()
+//getSnapshotBeforeUpdate()
+//componentDidUpdate()
