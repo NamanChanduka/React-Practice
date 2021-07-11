@@ -40,7 +40,7 @@ function RenderDish({ dish }) {
   }
 }
 
-function RenderComments({ comms }) {
+function RenderComments({ comms, addComment, dishId }) {
   if (comms != null) {
     const commentList = comms.map((comment) => {
       return (
@@ -61,6 +61,7 @@ function RenderComments({ comms }) {
       <div>
         <h4>Comments</h4>
         <ul className="list-unstyled">{commentList}</ul>
+        <CommentForm dishId={dishId} addComment={addComment} />
       </div>
     );
   } else {
@@ -86,10 +87,11 @@ const DishDetail = (props) => {
         </div>
         <div className="row">
           <RenderDish dish={props.selectedDish} />
-          <div className="col-12 col-md-5 m-1">
-            <RenderComments comms={props.comments} />
-            <CommentForm />
-          </div>
+          <RenderComments
+            comms={props.comments}
+            addComment={props.addComment}
+            dishId={props.selectedDish.id}
+          />
         </div>
       </div>
     );
@@ -111,8 +113,13 @@ class CommentForm extends Component {
   }
 
   handleSubmit(values) {
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
+    this.toggleModal();
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
   }
 
   toggleModal() {
@@ -151,7 +158,7 @@ class CommentForm extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="name" md={12}>
+                <Label htmlFor="author" md={12}>
                   Your Name
                 </Label>
                 <Col md={12}>
