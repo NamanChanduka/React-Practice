@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, Form, Errors, actions } from "react-redux-form";
+import { connect } from "react-redux";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -17,6 +18,10 @@ const minLength = (len) => (val) => val && val.length >= len;
 const isNumber = (val) => !isNaN(Number(val));
 const validEmail = (val) =>
   /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+
+const mapStateToProps = (state) => ({
+  feedback: state.feedback,
+});
 
 class Contact extends Component {
   constructor(props) {
@@ -27,8 +32,11 @@ class Contact extends Component {
 
   handleSubmit(values) {
     console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
     this.props.resetFeedbackForm();
+    this.props.postFeedback(values);
+    alert(
+      "Thank you for your feedback!\n" + JSON.stringify(this.props.feedback)
+    );
   }
 
   render() {
@@ -270,4 +278,4 @@ class Contact extends Component {
   }
 }
 
-export default Contact;
+export default connect(mapStateToProps)(Contact);
